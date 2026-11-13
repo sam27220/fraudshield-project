@@ -1,0 +1,110 @@
+
+<%- include("partials/header", { title: "Analysis Result | FraudShield AI" }) %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-1">Transaction Risk Result</h1>
+    <p class="text-muted mb-0">Fraud detection analysis completed</p>
+  </div>
+  <a href="/analyze" class="btn btn-outline-primary">
+    Analyze Another
+  </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+  <div class="card-body p-4">
+
+    <div class="row g-4">
+
+      <div class="col-md-6">
+        <p class="text-muted mb-1">Transaction ID</p>
+        <h5><%= transaction.id %></h5>
+      </div>
+
+      <div class="col-md-6">
+        <p class="text-muted mb-1">Transaction Amount</p>
+        <h5>₹<%= Number(transaction.amount).toLocaleString("en-IN") %></h5>
+      </div>
+
+      <div class="col-md-6">
+        <p class="text-muted mb-1">Sender Account</p>
+        <h5><%= transaction.from %></h5>
+      </div>
+
+      <div class="col-md-6">
+        <p class="text-muted mb-1">Receiver Account</p>
+        <h5><%= transaction.to %></h5>
+      </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <div class="text-center">
+      <p class="text-muted mb-1">Demo Risk Score</p>
+
+      <div class="display-1 fw-bold">
+        <%= transaction.score %>
+        <small class="fs-4 text-muted">/100</small>
+      </div>
+
+      <h4 class="mt-3">
+        Risk Level:
+
+        <span class="badge
+          <%= transaction.riskLevel === "HIGH"
+            ? "text-bg-danger"
+            : transaction.riskLevel === "MEDIUM"
+              ? "text-bg-warning"
+              : "text-bg-success" %>">
+
+          <%= transaction.riskLevel %>
+        </span>
+      </h4>
+
+      <p class="text-muted">
+        Status: <strong><%= transaction.status %></strong>
+      </p>
+    </div>
+
+    <hr class="my-4">
+
+    <h5 class="mb-3">Why this transaction received this score</h5>
+
+    <% if (transaction.reasons && transaction.reasons.length > 0) { %>
+
+      <ul class="list-group list-group-flush">
+        <% transaction.reasons.forEach(reason => { %>
+          <li class="list-group-item">
+            <i class="bi bi-exclamation-circle text-warning me-2"></i>
+            <%= reason %>
+          </li>
+        <% }) %>
+      </ul>
+
+    <% } else { %>
+
+      <div class="alert alert-success">
+        No configured risk indicators were triggered.
+      </div>
+
+    <% } %>
+
+  </div>
+</div>
+
+<div class="d-flex gap-2 flex-wrap">
+  <a href="/transactions" class="btn btn-primary">
+    View All Transactions
+  </a>
+
+  <a href="/network" class="btn btn-outline-primary">
+    View AML Network
+  </a>
+
+  <a href="/" class="btn btn-outline-secondary">
+    Dashboard
+  </a>
+</div>
+
+<%- include("partials/footer") %>

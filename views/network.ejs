@@ -1,0 +1,166 @@
+
+<%- include("partials/header", { title: "AML Network | FraudShield AI" }) %>
+
+<style>
+.network-container {
+    padding: 25px;
+}
+
+.network-card {
+    background: white;
+    padding: 22px;
+    border-radius: 12px;
+    margin-bottom: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+}
+
+.transaction-flow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    padding: 20px 5px;
+}
+
+.account-node {
+    background: #eaf1ff;
+    border: 2px solid #2563eb;
+    color: #1d4ed8;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-weight: bold;
+    padding: 10px;
+    overflow-wrap: anywhere;
+}
+
+.flow-arrow {
+    font-size: 28px;
+    color: #64748b;
+}
+
+.flow-info {
+    text-align: center;
+    min-width: 120px;
+}
+
+.risk-high {
+    color: #dc2626;
+    font-weight: bold;
+}
+
+.risk-medium {
+    color: #d97706;
+    font-weight: bold;
+}
+
+.risk-low {
+    color: #16a34a;
+    font-weight: bold;
+}
+</style>
+
+<div class="container-fluid network-container">
+
+    <h2 class="fw-bold">AML Network Analysis</h2>
+
+    <p class="text-secondary">
+        Visual representation of account-to-account transactions.
+    </p>
+
+    <div class="row g-3 my-3">
+
+        <div class="col-md-4">
+            <div class="network-card">
+                <p class="text-secondary mb-1">Total Transactions</p>
+                <h3><%= transactions.length %></h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="network-card">
+                <p class="text-secondary mb-1">High Risk Transactions</p>
+                <h3 class="text-danger">
+                    <%= transactions.filter(t => t.riskLevel === "HIGH").length %>
+                </h3>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="network-card">
+                <p class="text-secondary mb-1">Medium Risk Transactions</p>
+                <h3 class="text-warning">
+                    <%= transactions.filter(t => t.riskLevel === "MEDIUM").length %>
+                </h3>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="network-card">
+
+        <h5 class="fw-bold mb-4">Account Transaction Connections</h5>
+
+        <% if (transactions.length > 0) { %>
+
+            <% transactions.forEach(t => { %>
+
+                <div class="border rounded mb-3 p-3">
+
+                    <div class="d-flex justify-content-between flex-wrap gap-2">
+                        <small class="text-secondary">
+                            Transaction: <%= t.transactionId %>
+                        </small>
+
+                        <small>
+                            <% if (t.riskLevel === "HIGH") { %>
+                                <span class="risk-high">HIGH RISK</span>
+                            <% } else if (t.riskLevel === "MEDIUM") { %>
+                                <span class="risk-medium">MEDIUM RISK</span>
+                            <% } else { %>
+                                <span class="risk-low">LOW RISK</span>
+                            <% } %>
+                        </small>
+                    </div>
+
+                    <div class="transaction-flow">
+
+                        <div class="account-node">
+                            <%= t.from %>
+                        </div>
+
+                        <div class="flow-info">
+                            <div class="flow-arrow">→</div>
+                            <strong>₹<%= Number(t.amount || 0).toLocaleString("en-IN") %></strong>
+                            <div class="text-secondary small">Money Transfer</div>
+                        </div>
+
+                        <div class="account-node">
+                            <%= t.to %>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        <% } else { %>
+
+            <div class="text-center text-secondary py-5">
+                <h5>No Transactions Found</h5>
+                <p>Go to Analyze Transaction and create some sample transactions.</p>
+            </div>
+
+        <% } %>
+
+    </div>
+
+</div>
+
+<%- include("partials/footer") %>

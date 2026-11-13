@@ -1,0 +1,104 @@
+<%- include("partials/header", { title: "Dashboard | FraudShield AI" }) %>
+
+<div class="page-heading">
+  <div>
+    <div class="eyebrow">OVERVIEW / DASHBOARD</div>
+    <h1>Security Dashboard</h1>
+    <p>Monitor suspicious activity and transaction risk in real time.</p>
+  </div>
+  <a href="/analyze" class="primary-btn">
+    <i class="bi bi-plus-lg"></i> Analyze transaction
+  </a>
+</div>
+
+<div class="row g-3 mb-4">
+  <div class="col-xl-4 col-md-6">
+    <div class="metric-card">
+      <div class="metric-top">
+        <span class="metric-label">Transactions analysed</span>
+        <span class="metric-icon blue"><i class="bi bi-arrow-left-right"></i></span>
+      </div>
+      <div class="metric-value"><%= transactions.length %></div>
+      <div class="metric-foot">Synthetic demo dataset</div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <div class="metric-card">
+      <div class="metric-top">
+        <span class="metric-label">High-risk alerts</span>
+        <span class="metric-icon red"><i class="bi bi-shield-exclamation"></i></span>
+      </div>
+      <div class="metric-value"><%= flagged %></div>
+      <div class="metric-foot"><span class="text-danger">Requires investigation</span></div>
+    </div>
+  </div>
+  <div class="col-xl-4 col-md-6">
+    <div class="metric-card">
+      <div class="metric-top">
+        <span class="metric-label">Average risk score</span>
+        <span class="metric-icon purple"><i class="bi bi-speedometer2"></i></span>
+      </div>
+      <div class="metric-value"><%= avgRisk %><small>/100</small></div>
+      <div class="metric-foot">Across displayed transactions</div>
+    </div>
+  </div>
+</div>
+
+<div class="content-card">
+  <div class="card-heading">
+    <div>
+      <h2>Recent transactions</h2>
+      <p>Latest activity detected by the monitoring engine</p>
+    </div>
+    <a href="/transactions" class="text-link">View all <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <div class="table-responsive">
+    <table class="table transaction-table">
+      <thead>
+        <tr>
+          <th>TRANSACTION ID</th>
+          <th>ACCOUNT FLOW</th>
+          <th>AMOUNT</th>
+          <th>RISK SCORE</th>
+          <th>STATUS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% transactions.forEach(t => { %>
+          <tr>
+            <td><span class="txn-id"><%= t.id %></span></td>
+            <td>
+              <div class="account-flow">
+                <span><%= t.from %></span>
+                <i class="bi bi-arrow-right"></i>
+                <span><%= t.to %></span>
+              </div>
+            </td>
+            <td class="amount">₹<%= t.amount.toLocaleString("en-IN") %></td>
+            <td>
+              <div class="risk-cell">
+                <div class="risk-bar">
+                  <div class="risk-fill <%= t.score >= 70 ? "high" : t.score >= 40 ? "medium" : "low" %>" style="width:<%= t.score %>%"></div>
+                </div>
+                <span><%= t.score %></span>
+              </div>
+            </td>
+            <td>
+              <span class="status-pill <%= t.score >= 70 ? "danger" : t.score >= 40 ? "warning" : "success" %>">
+                <%= t.status %>
+              </span>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="demo-note">
+  <i class="bi bi-info-circle"></i>
+  <span>Prototype mode: all displayed transactions are synthetic. Risk scores are illustrative rule-based indicators, not proof of fraud.</span>
+</div>
+
+<%- include("partials/footer") %>

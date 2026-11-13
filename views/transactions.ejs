@@ -1,0 +1,41 @@
+<%- include("partials/header", { title: "Transactions | FraudShield AI" }) %>
+    <h1 class="h3 mb-3">Transactions</h1>
+    <div class="card">
+        <div class="card-body table-responsive">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Sender</th>
+                        <th>Receiver</th>
+                        <th>Amount</th>
+                        <th>Time</th>
+                        <th>Risk score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% transactions.forEach(t=> { %><tr>
+                            <td>
+                                <%= t.id %>
+                            </td>
+                            <td>
+                                <%= t.from %>
+                            </td>
+                            <td>
+                                <%= t.to %>
+                            </td>
+                            <td>₹<%= t.amount.toLocaleString("en-IN") %>
+                            </td>
+                            <td>
+                                <%= t.time %>
+                            </td>
+                            <td>
+                                <%= t.score %>/100
+                            </td>
+                        </tr>
+                        <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <%- include("partials/footer") %>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>
+    <%= typeof title !=="undefined" ? title : "FraudShield AI" %>
+  </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a href="/" class="brand">
+        <span class="brand-icon"><i class="bi bi-shield-lock-fill"></i></span>
+        <span>FraudShield<span class="brand-ai"> AI</span></span>
+      </a>
+
+      <div class="sidebar-label">WORKSPACE</div>
+      <a href="/" class="side-link active"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+      <a href="/transactions" class="side-link"><i class="bi bi-arrow-left-right"></i> Transactions</a>
+      <a href="/alerts" class="side-link"><i class="bi bi-bell"></i> Risk alerts <span class="side-count">!</span></a>
+      <a href="/analyze" class="side-link"><i class="bi bi-shield-check"></i> Analyze transaction</a>
+      <a href="/network" class="side-link">
+        <i class="bi bi-diagram-3"></i>
+        <span>AML Network</span>
+      </a>
+
+      <div class="sidebar-label mt-4">SYSTEM</div>
+      <a href="#" class="side-link"><i class="bi bi-activity"></i> Monitoring</a>
+      <a href="#" class="side-link"><i class="bi bi-gear"></i> Settings</a>
+
+      <div class="sidebar-bottom">
+        <div class="system-status"><span class="status-dot"></span> Detection engine active</div>
+        <small>FraudShield AI · Demo v1.0</small>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div>
+          <div class="topbar-title">Financial Security Center</div>
+          <div class="topbar-subtitle">Fraud detection &amp; AML monitoring</div>
+        </div>
+        <div class="topbar-right">
+          <span class="live-indicator"><span class="status-dot"></span> LIVE MONITORING</span>
+          <div class="avatar">FS</div>
+        </div>
+      </header>
+      <div class="page-content">

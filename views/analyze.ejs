@@ -1,0 +1,255 @@
+
+<%- include("partials/header", { title: "Analyze Transaction | FraudShield AI" }) %>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h1 class="h3 mb-1">Analyze Transaction</h1>
+    <p class="text-muted mb-0">
+      Check a transaction for potentially suspicious activity.
+    </p>
+  </div>
+  <span class="badge text-bg-primary px-3 py-2">
+    <i class="bi bi-shield-check me-1"></i> AI Risk Engine
+  </span>
+</div>
+
+<div class="row g-4">
+
+  <!-- Transaction Form -->
+  <div class="col-lg-8">
+    <div class="card border-0 shadow-sm">
+      <div class="card-header bg-white py-3">
+        <h5 class="mb-0">
+          <i class="bi bi-credit-card-2-front me-2"></i>
+          Transaction Details
+        </h5>
+      </div>
+
+      <div class="card-body p-4">
+
+        <form action="/analyze" method="POST">
+
+          <div class="row g-3">
+
+            <!-- Sender -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Sender Account
+              </label>
+              <input
+                type="text"
+                name="from"
+                class="form-control"
+                placeholder="e.g. ACC101"
+                maxlength="30"
+                required
+              >
+              <small class="text-muted">
+                Account sending the money
+              </small>
+            </div>
+
+            <!-- Receiver -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Receiver Account
+              </label>
+              <input
+                type="text"
+                name="to"
+                class="form-control"
+                placeholder="e.g. ACC205"
+                maxlength="30"
+                required
+              >
+              <small class="text-muted">
+                Account receiving the money
+              </small>
+            </div>
+
+            <!-- Amount -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Transaction Amount (₹)
+              </label>
+              <input
+                type="number"
+                name="amount"
+                class="form-control"
+                placeholder="Enter amount"
+                min="1"
+                step="0.01"
+                required
+              >
+            </div>
+
+            <!-- Time -->
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">
+                Transaction Hour
+              </label>
+              <select name="hour" class="form-select" required>
+                <option value="">Select hour</option>
+                <% for (let i = 0; i < 24; i++) { %>
+                  <option value="<%= i %>">
+                    <%= String(i).padStart(2, "0") %>:00
+                    <%= i < 12 ? "AM" : "PM" %>
+                  </option>
+                <% } %>
+              </select>
+              <small class="text-muted">
+                00:00–03:59 is treated as an unusual-hour indicator
+              </small>
+            </div>
+
+            <!-- New Beneficiary -->
+            <div class="col-12">
+              <div class="form-check form-switch mt-2">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="newBeneficiary"
+                  value="true"
+                  id="newBeneficiary"
+                >
+                <label class="form-check-label fw-semibold"
+                       for="newBeneficiary">
+                  New Beneficiary
+                </label>
+              </div>
+              <small class="text-muted">
+                Receiver is a newly added beneficiary.
+              </small>
+            </div>
+
+            <!-- Rapid Transactions -->
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="rapid"
+                  value="true"
+                  id="rapid"
+                >
+                <label class="form-check-label fw-semibold"
+                       for="rapid">
+                  Rapid Transactions
+                </label>
+              </div>
+              <small class="text-muted">
+                Multiple transactions occurred within a short period.
+              </small>
+            </div>
+
+            <!-- Circular Transaction -->
+            <div class="col-12">
+              <div class="form-check form-switch">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  name="circular"
+                  value="true"
+                  id="circular"
+                >
+                <label class="form-check-label fw-semibold"
+                       for="circular">
+                  Suspected Circular Transaction
+                </label>
+              </div>
+              <small class="text-muted">
+                Possible movement of money through connected accounts.
+              </small>
+            </div>
+
+          </div>
+
+          <hr class="my-4">
+
+          <div class="d-flex gap-2 flex-wrap">
+            <button type="submit" class="btn btn-primary px-4">
+              <i class="bi bi-shield-search me-2"></i>
+              Analyze Transaction
+            </button>
+
+            <button type="reset" class="btn btn-outline-secondary">
+              <i class="bi bi-arrow-counterclockwise me-1"></i>
+              Reset
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Information Panel -->
+  <div class="col-lg-4">
+
+    <div class="card border-0 shadow-sm mb-3">
+      <div class="card-body p-4">
+        <h5 class="mb-3">
+          <i class="bi bi-cpu me-2"></i>
+          Risk Detection Engine
+        </h5>
+
+        <p class="text-muted small">
+          FraudShield evaluates transaction details using a
+          rule-based risk scoring prototype.
+        </p>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Large Amount</span>
+          <span class="badge text-bg-warning">+25</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Unusual Hour</span>
+          <span class="badge text-bg-warning">+10</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>New Beneficiary</span>
+          <span class="badge text-bg-warning">+15</span>
+        </div>
+
+        <div class="d-flex justify-content-between mb-2">
+          <span>Rapid Transactions</span>
+          <span class="badge text-bg-warning">+20</span>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <span>Circular Pattern</span>
+          <span class="badge text-bg-danger">+25</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card border-0 shadow-sm">
+      <div class="card-body p-4">
+        <h6 class="fw-bold mb-3">
+          <i class="bi bi-info-circle me-2"></i>
+          Risk Levels
+        </h6>
+
+        <div class="mb-3">
+          <span class="badge text-bg-success">LOW</span>
+          <small class="text-muted ms-2">Score below 40</small>
+        </div>
+
+        <div class="mb-3">
+          <span class="badge text-bg-warning">MEDIUM</span>
+          <small class="text-muted ms-2">Score 40–69</small>
+        </div>
+
+        <div>
+          <span class="badge text-bg-danger">HIGH</span>
+          <small class="text-muted ms-2">Score 70–100</small>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<%- include("partials/footer") %>
