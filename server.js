@@ -234,19 +234,25 @@ app.post("/analyze", async (req, res) => {
 });
 
 // SERVER + DATABASE CONNECTION
+
+// SERVER + DATABASE CONNECTION
+
 if (!process.env.MONGODB_URI) {
-  console.error("ERROR: MONGODB_URI not found in .env file");
+  console.error("ERROR: MONGODB_URI not found!");
   process.exit(1);
 }
 
+// Start server first (Render requirement)
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on port ${PORT}`);
+});
+
+// Connect MongoDB
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log("MongoDB Atlas Connected Successfully!");
-
-    app.listen(PORT, () => {
-      console.log(`Server running at http://localhost:${PORT}`);
-    });
   })
   .catch((error) => {
     console.error("MongoDB Connection Failed:", error.message);
   });
+
